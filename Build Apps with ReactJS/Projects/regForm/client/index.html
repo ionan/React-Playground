@@ -1,0 +1,87 @@
+<html>
+<head>
+	<title>Register form</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+	<script src="https://fb.me/react-0.14.0.js"></script>
+	<script src="https://fb.me/react-dom-0.14.0.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.25/browser.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<h1 class="page-header">Register</h1>
+				<div id="regForm"></div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/babel">
+		var AlertBox = React.createClass({
+			render: function(){
+				return (
+					<div className={'alert alert-' + this.props.type}>{this.props.children}</div>
+				);
+			}
+		});
+
+		var RegForm = React.createClass({
+			getInitialState: function(){
+				return {
+					showAlert: false
+				};
+			},
+			register: function(e){
+				e.preventDefault();
+				var firstname = this.refs.firstname.value.trim();
+				var lastname = this.refs.lastname.value.trim();
+				var email = this.refs.email.value.trim();
+
+				if (!firstname || !lastname || !email){
+					this.setState({ 
+						showAlert: true 
+					});
+					return;	
+				} else {
+					this.setState({ 
+						showAlert: false 
+					});
+				}
+		
+				alert(firstname + " - " + lastname + " - " + email);
+
+				this.refs.firstname.value = "";
+				this.refs.lastname.value = "";
+				this.refs.email.value = "";
+			},
+			render: function(){
+				return (
+					<div>
+						<form onSubmit={this.register}>
+							{this.state.showAlert ? <AlertBox type="danger">Please fill in all fields</AlertBox> : null}
+							<div className="form-group">
+								<label htmlFor="firstname">First Name</label>
+								<input type="text" className="form-control" placeholder="First name" ref="firstname" />
+							</div>
+							<div className="form-group">
+								<label htmlFor="lastname">Last Name</label>
+								<input type="text" className="form-control" placeholder="Last name" ref="lastname" />
+							</div>
+							<div className="form-group">
+								<label htmlFor="email">Email</label>
+								<input type="email" className="form-control" placeholder="Email" ref="email" />
+							</div>
+							<input type="submit" className="btn btn-primary" value="Submit" />
+						</form>
+					</div>
+				);			
+			}
+		});
+
+		ReactDOM.render(
+			<RegForm />,
+			document.getElementById("regForm")
+		);
+	</script>
+</body>
+</html>
